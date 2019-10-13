@@ -1,8 +1,8 @@
-package com.lms.POJO;
+package com.lms.LMSLibrarian.POJO;
 
 public class LibraryBranch {
-	//hello there!!!
-	private int branchId;
+
+	private Integer branchId;
 	private String branchName;
 	private String branchAddress;
 	
@@ -10,7 +10,7 @@ public class LibraryBranch {
 		return branchId;
 	}
 
-	public void setBranchId(int branchId) {
+	public void setBranchId(Integer branchId) {
 		this.branchId = branchId;
 	}
 
@@ -18,7 +18,7 @@ public class LibraryBranch {
 		return branchName;
 	}
 
-	public void setBranchName(String branchName) {
+	public void setBranchName(String  branchName) {
 		this.branchName = branchName;
 	}
 
