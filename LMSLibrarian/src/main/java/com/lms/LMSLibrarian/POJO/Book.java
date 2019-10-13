@@ -3,15 +3,11 @@ package com.lms.LMSLibrarian.POJO;
 public class Book {
 	private Integer bookId;
 	private String title;
-	private Author author;
-	private Publisher publisher;
 	
-	public Book(Integer bookId, String title, Author author, Publisher publisher) {
+	public Book(Integer bookId, String title) {
 		super();
 		this.bookId = bookId;
 		this.title = title;
-		this.author = author;
-		this.publisher = publisher;
 	}
 	
 	public int getBookId() {
@@ -30,20 +26,5 @@ public class Book {
 		this.title = title;
 	}
 
-	public Author getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(Author author) {
-		this.author = author;
-	}
-
-	public Publisher getPublisher() {
-		return publisher;
-	}
-
-	public void setPublisher(Publisher publisher) {
-		this.publisher = publisher;
-	}
 
 }
