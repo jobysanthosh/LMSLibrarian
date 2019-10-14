@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +23,12 @@ public class LibraryBranchController {
 
 	@Autowired
 	LibraryBranchService libBranchService;
+	
+//	@ExceptionHandler(IOException)
+//    public ResponseEntity<String> handleIOException(IOException ex) {
+//        // prepare responseEntity
+//        return responseEntity;
+//    }
 
 	@RequestMapping("/LMSLibrarian/librarybranch")
 	public List<LibraryBranch> getAllLibraryBranch() throws SQLException {
@@ -29,6 +37,17 @@ public class LibraryBranchController {
 
 	@RequestMapping("/LMSLibrarian/librarybranch/{branchId}")
 	public LibraryBranch getLibraryBranchById(@PathVariable int branchId) throws SQLException {
+//		LibraryBranch libraryBranch = libBranchService.getLibraryBranchById(branchId);
+//		ResponseEntity<LibraryBranch> response = null;
+//		
+//		if(libraryBranch.getBranchId()!=0) {
+//			response = new ResponseEntity<>(libraryBranch,HttpStatus.FOUND);
+//		}
+//		else
+//		{
+//			response = new ResponseEntity<>(libraryBranch,HttpStatus.NOT_FOUND);
+//		}
+//		return response;
 		return libBranchService.getLibraryBranchById(branchId);
 	}
 

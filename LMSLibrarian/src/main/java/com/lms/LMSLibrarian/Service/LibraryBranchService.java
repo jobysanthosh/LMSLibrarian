@@ -14,11 +14,11 @@ public class LibraryBranchService {
 
 	@Autowired
 	LibraryBranchDao libBranchDao;
-
+	
 	public LibraryBranch getLibraryBranchById(int branchId) throws SQLException {
 		return libBranchDao.getLibraryBranchById(branchId);
 	}
-
+	
 	public List<LibraryBranch> getAllLibraryBranch() throws SQLException {
 		return libBranchDao.getAllLibraryBranch();
 	}
@@ -34,7 +34,7 @@ public class LibraryBranchService {
 	public List<Book> getBooks(int branchId) throws SQLException{
 		return libBranchDao.getBooks(branchId);
 	}
-
+	
 	public Book getBookById(int branchId, int bookId) throws SQLException{
 		return libBranchDao.getBookById(branchId, bookId);
 	}
