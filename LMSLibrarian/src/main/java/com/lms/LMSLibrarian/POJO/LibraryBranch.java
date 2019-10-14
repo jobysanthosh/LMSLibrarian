@@ -6,7 +6,7 @@ public class LibraryBranch {
 	private String branchName;
 	private String branchAddress;
 	
-	public int getBranchId() {
+	public Integer getBranchId() {
 		return branchId;
 	}
 

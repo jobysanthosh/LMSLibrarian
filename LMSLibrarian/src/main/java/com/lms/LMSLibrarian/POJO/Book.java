@@ -10,7 +10,7 @@ public class Book {
 		this.title = title;
 	}
 	
-	public int getBookId() {
+	public Integer getBookId() {
 		return bookId;
 	}
 	
