@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.lms.LMSLibrarian.POJO.Book;
@@ -60,7 +58,6 @@ public class LibraryBranchDao {
 			PreparedStatement prepareStatement = getConnection().prepareStatement(sql);
 			ResultSet resultSet = prepareStatement.executeQuery();
 			
-	
 			while(resultSet.next()) {
 	
 				LibraryBranch lb = new LibraryBranch();
@@ -76,7 +73,7 @@ public class LibraryBranchDao {
 		return branch;
 	}
 
-	public ResponseEntity<String> updateLibraryBranch(String name, String address, int branchId)  {
+	public void updateLibraryBranch(String name, String address, int branchId)  {
 		
 		try {
 			String sql = "UPDATE library.tbl_library_branch SET branchName = ?, branchAddress = ? WHERE branchId = ?";
@@ -85,16 +82,14 @@ public class LibraryBranchDao {
 			prepareStatement.setString(2, address);
 			prepareStatement.setInt(3, branchId);
 			prepareStatement.executeUpdate();
-
-			return new ResponseEntity<String>("Updated successfully", HttpStatus.ACCEPTED);
 		} 
 		catch (SQLException e) {
-			return new ResponseEntity<String>("Wrong ID passed", HttpStatus.INTERNAL_SERVER_ERROR);
+			System.out.println(e);
 		}
 		
 	}
 
-	public ResponseEntity<String> updateBookCopy(int bookId, int copy, int branchId) {
+	public void updateBookCopy(int bookId, int copy, int branchId) {
 		
 		try {
 			String sql = "Update tbl_book_copies SET noOfCopies = ? WHERE bookId = ? AND branchId = ?";
@@ -103,11 +98,9 @@ public class LibraryBranchDao {
 			ps.setInt(2, bookId);
 			ps.setInt(3, branchId);
 			ps.executeUpdate();
-			return new ResponseEntity<String>("Updated successfully", HttpStatus.ACCEPTED);
 		}
 		catch(SQLException e) {
 			System.out.println(e);
-			return new ResponseEntity<String>("Wrong ID passed", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

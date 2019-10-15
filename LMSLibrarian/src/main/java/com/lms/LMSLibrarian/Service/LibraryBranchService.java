@@ -3,7 +3,6 @@ package com.lms.LMSLibrarian.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.lms.LMSLibrarian.DAO.LibraryBranchDao;
@@ -39,12 +38,12 @@ public class LibraryBranchService {
 		return libBranchDao.getAllLibraryBranch();
 	}
 
-	public ResponseEntity<String> updateLibraryBranch(String name, String address, int branchId) {
-		return libBranchDao.updateLibraryBranch(name, address, branchId);
+	public void updateLibraryBranch(String name, String address, Integer branchId) {
+		 libBranchDao.updateLibraryBranch(name, address, branchId);
 	}
 
-	public ResponseEntity<String> updateBookCopy(int bookId, int copy, int branchId) {
-		return libBranchDao.updateBookCopy(bookId, copy, branchId);
+	public void updateBookCopy(Integer bookId, Integer copy, Integer branchId) {
+		 libBranchDao.updateBookCopy(bookId, copy, branchId);
 	}
 
 	public List<Book> getBooks(int branchId) {

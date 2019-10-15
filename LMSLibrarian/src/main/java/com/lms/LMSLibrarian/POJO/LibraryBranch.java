@@ -5,7 +5,18 @@ public class LibraryBranch {
 	private Integer branchId;
 	private String branchName;
 	private String branchAddress;
-	
+		
+	public LibraryBranch() {
+
+	}
+
+	public LibraryBranch(Integer branchId, String branchName, String branchAddress) {
+		super();
+		this.branchId = branchId;
+		this.branchName = branchName;
+		this.branchAddress = branchAddress;
+	}
+
 	public Integer getBranchId() {
 		return branchId;
 	}
