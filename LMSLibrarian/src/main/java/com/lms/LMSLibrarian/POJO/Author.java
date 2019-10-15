@@ -4,13 +4,15 @@ public class Author {
 	private Integer authorId;
 	private String authorName;
 	
+	public Author() {}
+	
 	public Author(Integer authorId, String authorName) {
 		super();
 		this.authorId = authorId;
 		this.authorName = authorName;
 	}
-	
-	public int getAuthorId() {
+
+	public Integer getAuthorId() {
 		return authorId;
 	}
 
@@ -25,6 +27,4 @@ public class Author {
 	public void setAuthorName(String authorName) {
 		this.authorName = authorName;
 	}
-
-
 }

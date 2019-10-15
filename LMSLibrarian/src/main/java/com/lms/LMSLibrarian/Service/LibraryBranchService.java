@@ -23,7 +23,7 @@ public class LibraryBranchService {
     }
 	
 	public boolean ifBookExists(int bookId, int branchId) {
-        List<Book> list = libBranchDao.getBooks(branchId);
+        List<BookBL> list = libBranchDao.getBooks(branchId);
         boolean exists = list.stream()
                 			.anyMatch(id -> id.getBookId()
                 			.equals(bookId));
@@ -46,11 +46,11 @@ public class LibraryBranchService {
 		 libBranchDao.updateBookCopy(bookId, copy, branchId);
 	}
 
-	public List<Book> getBooks(int branchId) {
+	public List<BookBL> getBooks(int branchId) {
 		return libBranchDao.getBooks(branchId);
 	}
 	
-	public Book getBookById(int branchId, int bookId) {
+	public BookBL getBookById(int branchId, int bookId) {
 		return libBranchDao.getBookById(branchId, bookId);
 	}
 }

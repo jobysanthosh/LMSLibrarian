@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lms.LMSLibrarian.POJO.Book;
+import com.lms.LMSLibrarian.POJO.BookBL;
 import com.lms.LMSLibrarian.POJO.LibraryBranch;
 import com.lms.LMSLibrarian.Service.LibraryBranchService;
 
@@ -45,12 +45,12 @@ public class LibraryBranchController {
 	}
 
 	@RequestMapping("/LMSLibrarian/librarybranch/{branchId}/bookid")
-	public List<Book> getBooks(@PathVariable(value="branchId") int branchId) {
+	public List<BookBL> getBooks(@PathVariable(value="branchId") int branchId) {
 		return libBranchService.getBooks(branchId);
 	}
 
 	@RequestMapping("/LMSLibrarian/librarybranch/{branchid}/bookid/{bookid}")
-	public Book getBookById(@PathVariable(value="branchId") int branchId, @PathVariable(value="bookid") int bookId) {
+	public BookBL getBookById(@PathVariable(value="branchId") int branchId, @PathVariable(value="bookid") int bookId) {
 		return libBranchService.getBookById(branchId, bookId);
 	}
 

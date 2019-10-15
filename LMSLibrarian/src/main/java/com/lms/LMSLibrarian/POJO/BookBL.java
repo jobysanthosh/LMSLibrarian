@@ -1,10 +1,15 @@
 package com.lms.LMSLibrarian.POJO;
 
-public class Book {
+public class BookBL {
 	private Integer bookId;
 	private String title;
 	
-	public Book(Integer bookId, String title) {
+	
+	
+	public BookBL() {
+	}
+
+	public BookBL(Integer bookId, String title) {
 		super();
 		this.bookId = bookId;
 		this.title = title;

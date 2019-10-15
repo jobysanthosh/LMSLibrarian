@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.lms.LMSLibrarian.POJO.Book;
+import com.lms.LMSLibrarian.POJO.BookBL;
 import com.lms.LMSLibrarian.POJO.LibraryBranch;
 
 @Component
@@ -104,9 +104,9 @@ public class LibraryBranchDao {
 		}
 	}
 
-	public List<Book> getBooks(int branchId) {
+	public List<BookBL> getBooks(int branchId) {
 		
-		List<Book> book = new ArrayList<Book>();
+		List<BookBL> book = new ArrayList<BookBL>();
 		
 		try {
 			String sql = "SELECT tbl_book.bookId, CONCAT(tbl_book.title, ' by ' , tbl_author.authorName) AS title FROM tbl_book INNER JOIN tbl_author ON tbl_book.authId = tbl_author.authorId INNER JOIN tbl_book_copies ON tbl_book.bookId = tbl_book_copies.bookId INNER JOIN tbl_library_branch ON tbl_book_copies.branchId = tbl_library_branch.branchId WHERE tbl_library_branch.branchId = ?";
@@ -115,7 +115,7 @@ public class LibraryBranchDao {
 			ResultSet resultSet = prepareStatement.executeQuery();
 			
 			while(resultSet.next()) {
-				Book b = new Book(null, null);
+				BookBL b = new BookBL(null, null);
 				b.setBookId(resultSet.getInt("bookId"));
 				b.setTitle(resultSet.getString("title"));
 				book.add(b);
@@ -127,9 +127,9 @@ public class LibraryBranchDao {
 		return book;
 	}
 
-	public Book getBookById(int branchId, int bookId) {
+	public BookBL getBookById(int branchId, int bookId) {
 
-		Book book = new Book(null, null);
+		BookBL book = new BookBL(null, null);
 		
 		try {
 			String sql = "SELECT tbl_book.bookId, CONCAT(tbl_book.title, ' by ' , tbl_author.authorName) AS title FROM tbl_book INNER JOIN tbl_author ON tbl_book.authId = tbl_author.authorId INNER JOIN tbl_book_copies ON tbl_book.bookId = tbl_book_copies.bookId INNER JOIN tbl_library_branch ON tbl_book_copies.branchId = tbl_library_branch.branchId WHERE tbl_library_branch.branchId = ? AND tbl_book.bookId = ?";
