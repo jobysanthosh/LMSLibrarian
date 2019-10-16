@@ -1,6 +1,7 @@
 package com.lms.LMSLibrarian.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,20 +31,20 @@ public class LibraryBranchService {
         return exists;
     }
 	
-	public LibraryBranch getLibraryBranchById(int branchId) {
-		return libBranchDao.getLibraryBranchById(branchId);
-	}
+//	public void getLibraryBranchById(LibraryBranch branch) {
+//		 libBranchDao.getLibraryBranchById(branch.getBranchId());
+//	}
 	
 	public List<LibraryBranch> getAllLibraryBranch() {
 		return libBranchDao.getAllLibraryBranch();
 	}
 
-	public void updateLibraryBranch(String name, String address, Integer branchId) {
-		 libBranchDao.updateLibraryBranch(name, address, branchId);
+	public void updateLibraryBranch(LibraryBranch branch) {
+		 libBranchDao.updateLibraryBranch(branch);
 	}
 
-	public void updateBookCopy(Integer bookId, Integer copy, Integer branchId) {
-		 libBranchDao.updateBookCopy(bookId, copy, branchId);
+	public void updateBookCopy(BookCopiesBL bookCopy) {
+		 libBranchDao.updateBookCopy(bookCopy);
 	}
 
 	public List<BookBL> getBooks(int branchId) {

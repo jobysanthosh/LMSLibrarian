@@ -7,10 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
 import com.lms.LMSLibrarian.POJO.BookBL;
+import com.lms.LMSLibrarian.POJO.BookCopiesBL;
 import com.lms.LMSLibrarian.POJO.LibraryBranch;
 
 @Component
@@ -27,26 +29,26 @@ public class LibraryBranchDao {
 		return conn;
 	}
 
-	public LibraryBranch getLibraryBranchById(int branchId) {
+	public LibraryBranch getLibraryBranchById(LibraryBranch branch) {
 
-		LibraryBranch libBranch = new LibraryBranch();
+		//LibraryBranch libBranch = new LibraryBranch();
 		try {
 			
 			String sql = "SELECT * FROM library.tbl_library_branch where branchId = ?";
 			PreparedStatement prepareStatement = getConnection().prepareStatement(sql);
-			prepareStatement.setInt(1, branchId);
+			prepareStatement.setInt(1, branch.getBranchId());
 			ResultSet resultSet = prepareStatement.executeQuery();
 	
 			while(resultSet.next()) {
-				libBranch.setBranchId(resultSet.getInt("branchId"));
-				libBranch.setBranchName(resultSet.getString("branchName"));
-				libBranch.setBranchAddress(resultSet.getString("branchAddress"));
+				branch.setBranchId(resultSet.getInt("branchId"));
+				branch.setBranchName(resultSet.getString("branchName"));
+				branch.setBranchAddress(resultSet.getString("branchAddress"));
 			}	
 		}
 		catch(SQLException e) {
 			System.out.println(e);
 		}
-		return libBranch;
+		return branch;
 	}
 
 	public List<LibraryBranch> getAllLibraryBranch() {
@@ -73,14 +75,14 @@ public class LibraryBranchDao {
 		return branch;
 	}
 
-	public void updateLibraryBranch(String name, String address, int branchId)  {
+	public void updateLibraryBranch(LibraryBranch branch)  {
 		
 		try {
-			String sql = "UPDATE library.tbl_library_branch SET branchName = ?, branchAddress = ? WHERE branchId = ?";
+			String sql = "UPDATE tbl_library_branch SET branchName = ?, branchAddress = ? WHERE branchId = ?";
 			PreparedStatement prepareStatement = getConnection().prepareStatement(sql);
-			prepareStatement.setString(1, name);
-			prepareStatement.setString(2, address);
-			prepareStatement.setInt(3, branchId);
+			prepareStatement.setString(1, branch.getBranchName());
+			prepareStatement.setString(2, branch.getBranchAddress());
+			prepareStatement.setInt(3, branch.getBranchId());
 			prepareStatement.executeUpdate();
 		} 
 		catch (SQLException e) {
@@ -89,14 +91,14 @@ public class LibraryBranchDao {
 		
 	}
 
-	public void updateBookCopy(int bookId, int copy, int branchId) {
+	public void updateBookCopy(BookCopiesBL bookCopy) {
 		
 		try {
 			String sql = "Update tbl_book_copies SET noOfCopies = ? WHERE bookId = ? AND branchId = ?";
 			PreparedStatement ps = getConnection().prepareStatement(sql);
-			ps.setInt(1, copy);
-			ps.setInt(2, bookId);
-			ps.setInt(3, branchId);
+			ps.setInt(1, bookCopy.getNoOfCopies());
+			ps.setInt(2, bookCopy.getBookId());
+			ps.setInt(3, bookCopy.getBranchId());
 			ps.executeUpdate();
 		}
 		catch(SQLException e) {
