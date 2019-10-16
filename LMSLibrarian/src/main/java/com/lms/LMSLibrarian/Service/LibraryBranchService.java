@@ -1,7 +1,7 @@
 package com.lms.LMSLibrarian.Service;
 
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,28 +14,44 @@ public class LibraryBranchService {
 
 	@Autowired
 	LibraryBranchDao libBranchDao;
-
-	public LibraryBranch getLibraryBranchById(int branchId) throws SQLException {
-		return libBranchDao.getLibraryBranchById(branchId);
-	}
-
-	public List<LibraryBranch> getAllLibraryBranch() throws SQLException {
+	
+	public boolean ifBranchExists(int branchId) {
+        List<LibraryBranch> list = libBranchDao.getAllLibraryBranch();
+        boolean exists = list.stream()
+               				.anyMatch(id -> id.getBranchId()
+                			.equals(branchId));
+        return exists;
+    }
+	
+	public boolean ifBookExists(int bookId, int branchId) {
+        List<BookBL> list = libBranchDao.getBooks(branchId);
+        boolean exists = list.stream()
+                			.anyMatch(id -> id.getBookId()
+                			.equals(bookId));
+        return exists;
+    }
+	
+//	public void getLibraryBranchById(LibraryBranch branch) {
+//		 libBranchDao.getLibraryBranchById(branch.getBranchId());
+//	}
+	
+	public List<LibraryBranch> getAllLibraryBranch() {
 		return libBranchDao.getAllLibraryBranch();
 	}
 
-	public String updateLibraryBranch(String name, String address, int branchId) throws SQLException {
-		return libBranchDao.updateLibraryBranch(name, address, branchId);
+	public void updateLibraryBranch(LibraryBranch branch) {
+		 libBranchDao.updateLibraryBranch(branch);
 	}
 
-	public String updateBookCopy(int bookId, int copy, int branchId) throws SQLException{
-		return libBranchDao.updateBookCopy(bookId, copy, branchId);
+	public void updateBookCopy(BookCopiesBL bookCopy) {
+		 libBranchDao.updateBookCopy(bookCopy);
 	}
 
-	public List<Book> getBooks(int branchId) throws SQLException{
+	public List<BookBL> getBooks(int branchId) {
 		return libBranchDao.getBooks(branchId);
 	}
-
-	public Book getBookById(int branchId, int bookId) throws SQLException{
+	
+	public BookBL getBookById(int branchId, int bookId) {
 		return libBranchDao.getBookById(branchId, bookId);
 	}
 }
