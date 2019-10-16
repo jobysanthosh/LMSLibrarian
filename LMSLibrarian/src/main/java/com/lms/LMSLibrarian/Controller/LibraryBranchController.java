@@ -57,7 +57,7 @@ public class LibraryBranchController {
 			return libBranchService.getBookById(branchId, bookId);
 	}
 
-	@PutMapping(value = "/branches/{branchId}/bookId/{bookId}/copy/{copy}", consumes = {"application/xml", "application/json"})
+	@PutMapping(value = "/branches/{branchId}/bookId/{bookId}/copies/{copies}", consumes = {"application/xml", "application/json"})
 	public ResponseEntity<?> updateBookCopy( @RequestHeader("Accept") String accept,
 											@RequestBody BookCopiesBL bookCopy) {
 		
