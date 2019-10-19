@@ -3,10 +3,10 @@ package com.lms.LMSLibrarian.DAO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.lms.LMSLibrarian.POJO.LibraryBranch;
-
+import com.lms.LMSLibrarian.POJO.Book;
 
 @Repository
-public interface LibraryBranchDao extends JpaRepository<LibraryBranch, Integer> {	
+public interface BookDao extends JpaRepository<Book, Integer>
+{
 
 }

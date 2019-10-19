@@ -1,77 +1,96 @@
 package com.lms.LMSLibrarian.Controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import com.lms.LMSLibrarian.POJO.BookBL;
-import com.lms.LMSLibrarian.POJO.BookCopiesBL;
-import com.lms.LMSLibrarian.POJO.LibraryBranch;
+import com.lms.LMSLibrarian.POJO.*;
 import com.lms.LMSLibrarian.Service.LibraryBranchService;
 
 @RestController
-@RequestMapping("/LMSLibrarian")
 
+@RequestMapping("/librarian/branches")
 public class LibraryBranchController {
-
+	
+	 @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	 @ResponseStatus(HttpStatus.BAD_REQUEST)
+	 public String handle(Exception e) {
+		 return "Invalid Request";
+	 }
+	 
 	@Autowired
 	LibraryBranchService libBranchService;
 
-	@GetMapping("/branches")
+	@GetMapping(value="")
 	public List<LibraryBranch> getAllLibraryBranch() {
 		return libBranchService.getAllLibraryBranch();
 	}
 
 
-	@PutMapping(value = "/branches/{branchId}/name/{name}/address/{address}", 
-			consumes = {"application/xml", "application/json"})
-	public ResponseEntity<?> updateLibraryBranch(
-			@RequestHeader("Accept") String accept,
-			@RequestBody LibraryBranch branch) {
-		boolean check = libBranchService.ifBranchExists(branch.getBranchId());
-		if(check == true && branch!=null) {
-			libBranchService.updateLibraryBranch(branch);
-			return new ResponseEntity<LibraryBranch>(branch, HttpStatus.OK);
-		}
-		else {
-			return new ResponseEntity<LibraryBranch>(branch, HttpStatus.NOT_FOUND);
-		}
-	}
-
-	@RequestMapping("/branches/{branchId}/bookId")
-	public List<BookBL> getBooks(@PathVariable(value="branchId") int branchId) {
-		return libBranchService.getBooks(branchId);
-	}
-
-	@RequestMapping("/branches/{branchid}/bookid/{bookid}")
-	public BookBL getBookById(@PathVariable(value="branchId") int branchId, @PathVariable(value="bookid") int bookId) {
-			return libBranchService.getBookById(branchId, bookId);
-	}
-
-	@PutMapping(value = "/branches/{branchId}/bookId/{bookId}/copies/{copies}", consumes = {"application/xml", "application/json"})
-	public ResponseEntity<?> updateBookCopy( @RequestHeader("Accept") String accept,
-											@RequestBody BookCopiesBL bookCopy) {
+	@PutMapping(value = "/{branchId}", consumes = {"application/xml", "application/json"})
+		public ResponseEntity<?> updateLibraryBranch(	@RequestHeader("Accept") String accept,
+														@PathVariable Integer branchId,
+														@RequestBody LibraryBranch branch) {
 		
-		boolean branchcheck = libBranchService.ifBranchExists(bookCopy.getBranchId());
-		boolean bookcheck = libBranchService.ifBookExists(bookCopy.getBookId(), bookCopy.getBranchId());
-		
-			if(branchcheck == true  && bookcheck == true && bookCopy!=null) {
-					libBranchService.updateBookCopy(bookCopy);
-					return new ResponseEntity<BookCopiesBL>(bookCopy, HttpStatus.OK);
-			}
+			boolean check = libBranchService.ifBranchExists(branchId);
 			
+			if(check == true && branch!=null) {
+				
+					branch.setBranchId(branchId);
+					libBranchService.updateLibraryBranch(branch);
+					
+					return new ResponseEntity<LibraryBranch>(branch, HttpStatus.OK);
+			}
 			else {
-				return new ResponseEntity<BookCopiesBL>(bookCopy, HttpStatus.NOT_FOUND);
+				return new ResponseEntity<String>("ID doesn't exist or null values encountered", HttpStatus.NOT_FOUND);
+			}
 		}
+
+//		@RequestMapping("/{branchId}/bookId")
+//		public List<Book> getBooks(@PathVariable(value="branchId") int branchId) {
+//			return libBranchService.getBooks(branchId);
+//		}
+
+	@GetMapping("/{branchId}")
+	public Optional<LibraryBranch> getBookById(@PathVariable(value="branchId") Integer branchId) {
+			return libBranchService.getLibraryBranchById(branchId);
 	}
+
+	@PutMapping(value = "/copies", consumes = {"application/xml", "application/json"})
+		public ResponseEntity<?> updateBookCopy( 	@RequestHeader("Accept") String accept,
+													@RequestBody BookCopies bookCopy) {
+
+			boolean branchcheck = libBranchService.ifBranchExists(bookCopy.getBookCopiesComposite().getBranch().getBranchId());
+			boolean bookcheck = libBranchService.ifBookExists(bookCopy.getBookCopiesComposite().getBook().getBookId());
+			
+			Integer copycheck = bookCopy.getNoOfCopies();
+			Integer branchnullcheck = bookCopy.getBookCopiesComposite().getBranch().getBranchId();
+			Integer booknullcheck = bookCopy.getBookCopiesComposite().getBook().getBookId();
+			
+				if(branchcheck == true  && bookcheck == true && bookCopy!=null 
+						&& copycheck !=null && branchnullcheck != null && booknullcheck!=null) {
+					
+								libBranchService.updateBookCopy(bookCopy);
+						
+								return new ResponseEntity<BookCopies>(bookCopy, HttpStatus.OK);
+				}
+				
+				else {	
+					return new ResponseEntity<String>("ID doesn't exist or null values encountered", HttpStatus.NOT_FOUND);
+			}
+		}
 
 }
