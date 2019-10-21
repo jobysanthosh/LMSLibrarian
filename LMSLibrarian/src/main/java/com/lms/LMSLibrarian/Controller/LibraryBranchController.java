@@ -1,5 +1,6 @@
 package com.lms.LMSLibrarian.Controller;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lms.LMSLibrarian.POJO.*;
 import com.lms.LMSLibrarian.Service.LibraryBranchService;
 
@@ -25,28 +27,32 @@ import com.lms.LMSLibrarian.Service.LibraryBranchService;
 @RequestMapping("/librarian/branches")
 public class LibraryBranchController {
 	
-	 @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	//Exceptions for Null and String 
+	 @ExceptionHandler({MethodArgumentTypeMismatchException.class, JsonProcessingException.class, NullPointerException.class})
 	 @ResponseStatus(HttpStatus.BAD_REQUEST)
 	 public String handle(Exception e) {
 		 return "Invalid Request";
 	 }
-	 
+
+
 	@Autowired
 	LibraryBranchService libBranchService;
 
-	@GetMapping(value="")
-	public List<LibraryBranch> getAllLibraryBranch() {
-		return libBranchService.getAllLibraryBranch();
+	@GetMapping(value="",
+				consumes = {"application/xml", "application/json"})
+	public List<LibraryBranch> getAllLibraryBranch(		@RequestHeader("Accept") String accept) {
+		
+			return libBranchService.getAllLibraryBranch();
+			
 	}
 
-
-	@PutMapping(value = "/{branchId}", consumes = {"application/xml", "application/json"})
+	@PutMapping(value = "/{branchId}", 
+				consumes = {"application/xml", "application/json"})
 		public ResponseEntity<?> updateLibraryBranch(	@RequestHeader("Accept") String accept,
 														@PathVariable Integer branchId,
-														@RequestBody LibraryBranch branch) {
+														@RequestBody LibraryBranch branch)  {
 		
 			boolean check = libBranchService.ifBranchExists(branchId);
-			
 			if(check == true && branch!=null) {
 				
 					branch.setBranchId(branchId);
@@ -64,18 +70,20 @@ public class LibraryBranchController {
 //			return libBranchService.getBooks(branchId);
 //		}
 
-	@GetMapping("/{branchId}")
-	public Optional<LibraryBranch> getBookById(@PathVariable(value="branchId") Integer branchId) {
+	@GetMapping(value = "/{branchId}",
+				consumes = {"application/xml", "application/json"})
+	public Optional<LibraryBranch> getBookById(			@PathVariable(value="branchId") Integer branchId) {
+		
 			return libBranchService.getLibraryBranchById(branchId);
 	}
 
-	@PutMapping(value = "/copies", consumes = {"application/xml", "application/json"})
+	@PutMapping(value = "/copies", 
+				consumes = {"application/xml", "application/json"})
 		public ResponseEntity<?> updateBookCopy( 	@RequestHeader("Accept") String accept,
 													@RequestBody BookCopies bookCopy) {
 
 			boolean branchcheck = libBranchService.ifBranchExists(bookCopy.getBookCopiesComposite().getBranch().getBranchId());
 			boolean bookcheck = libBranchService.ifBookExists(bookCopy.getBookCopiesComposite().getBook().getBookId());
-			
 			Integer copycheck = bookCopy.getNoOfCopies();
 			Integer branchnullcheck = bookCopy.getBookCopiesComposite().getBranch().getBranchId();
 			Integer booknullcheck = bookCopy.getBookCopiesComposite().getBook().getBookId();

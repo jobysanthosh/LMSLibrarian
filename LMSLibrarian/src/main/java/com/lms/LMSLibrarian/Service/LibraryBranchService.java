@@ -61,4 +61,9 @@ public class LibraryBranchService {
 //	public Book getBookById(int branchId, int bookId) {
 //		return libBranchDao.getBookById(branchId, bookId);
 //	}
+	
+//	public BookCopies getBookInfo(BookCopies bookCopy) {
+//		bookCopy.getBookCopiesComposite().getBook().getTitle();
+//		bookCopy.setBookCopiesComposite(bookCopy.);
+//	}
 }

@@ -22,30 +22,18 @@ public class BookCopies implements Serializable{
 	public BookCopies() {
 	}
 
-	/**
-	 * @return the bookCopiesComposite
-	 */
 	public BookCopiesComposite getBookCopiesComposite() {
 		return bookCopiesComposite;
 	}
 
-	/**
-	 * @param bookCopiesComposite the bookCopiesComposite to set
-	 */
 	public void setBookCopiesComposite(BookCopiesComposite bookCopiesComposite) {
 		this.bookCopiesComposite = bookCopiesComposite;
 	}
 
-	/**
-	 * @return the noOfCopies
-	 */
 	public Integer getNoOfCopies() {
 		return noOfCopies;
 	}
 
-	/**
-	 * @param noOfCopies the noOfCopies to set
-	 */
 	public void setNoOfCopies(Integer noOfCopies) {
 		this.noOfCopies = noOfCopies;
 	}
