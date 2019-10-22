@@ -92,6 +92,7 @@ public class LibraryBranchController {
 						&& copycheck !=null && branchnullcheck != null && booknullcheck!=null) {
 					
 								libBranchService.updateBookCopy(bookCopy);
+								libBranchService.getEmbeddedDetails(bookCopy);
 						
 								return new ResponseEntity<BookCopies>(bookCopy, HttpStatus.OK);
 				}

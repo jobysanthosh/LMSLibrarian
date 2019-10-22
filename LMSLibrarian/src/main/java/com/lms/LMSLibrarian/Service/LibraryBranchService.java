@@ -19,6 +19,12 @@ public class LibraryBranchService {
 	BookDao bookDao;
 	
 	@Autowired
+	PublisherDao pubDao;
+	
+	@Autowired
+	AuthorDao authorDao;
+	
+	@Autowired
 	BookCopiesDao bookCopiesDao;
 	
 	public boolean ifBranchExists(int branchId) {
@@ -53,6 +59,58 @@ public class LibraryBranchService {
 	public BookCopies updateBookCopy(BookCopies bookCopy) {
 		 return bookCopiesDao.save(bookCopy);
 	}
+	//Get one book
+    public Optional<Book> getBookById(Integer bookId){
+        return bookDao.findById(bookId);
+    }
+    
+    //Get one author
+    public Optional<Author> getAuthorById(Integer authorId) {
+        return authorDao.findById(authorId);
+    }
+    
+    //Get one record
+    public Optional<Publisher> getPubById(Integer publisherId) {
+        return pubDao.findById(publisherId);
+    }
+    
+    //Get embedded data for book copies
+    public BookCopies getEmbeddedDetails(BookCopies bookCopy) {
+        
+        Optional<LibraryBranch> branchDetails = getLibraryBranchById(bookCopy.getBookCopiesComposite().getBranch().getBranchId());
+        LibraryBranch branch = new LibraryBranch(bookCopy.getBookCopiesComposite().getBranch().getBranchId(), branchDetails.get().getBranchName(), 
+                branchDetails.get().getBranchAddress());
+        
+        Optional<Book> bookDetails = getBookById(bookCopy.getBookCopiesComposite().getBook().getBookId());
+        Book book = new Book(bookCopy.getBookCopiesComposite().getBook().getBookId(), bookDetails.get().getTitle(), 
+                bookDetails.get().getAuthor(), bookDetails.get().getPublisher());
+        
+        book = getBookEmbeddedDetails(book);
+        
+        BookCopiesComposite compKey = new BookCopiesComposite(book, branch);
+        
+        bookCopy.setBookCopiesComposite(compKey);
+        
+        return bookCopy;
+    }
+    
+    //Get embedded data for book data
+    public Book getBookEmbeddedDetails(Book book) {
+        
+        //Get embedded publisher details
+        Optional<Publisher> pubDetails = getPubById(book.getPublisher().getPublisherId());
+        Publisher pub = new Publisher(book.getPublisher().getPublisherId(), pubDetails.get().getPublisherName(), 
+                pubDetails.get().getPublisherAddress(), pubDetails.get().getPublisherPhone());
+        
+        //Get embedded author details
+        Optional<Author> authDetails = getAuthorById(book.getAuthor().getAuthorId());
+        Author author = new Author(book.getAuthor().getAuthorId(), authDetails.get().getAuthorName());
+        
+        book.setPublisher(pub);
+        book.setAuthor(author);
+        
+        return book;
+    }
 
 //	public List<Book> getBooks(int branchId) {
 //		return libBranchDao.getBooks(branchId);
@@ -66,4 +124,5 @@ public class LibraryBranchService {
 //		bookCopy.getBookCopiesComposite().getBook().getTitle();
 //		bookCopy.setBookCopiesComposite(bookCopy.);
 //	}
+	
 }
