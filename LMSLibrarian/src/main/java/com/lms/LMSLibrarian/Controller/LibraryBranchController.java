@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -23,8 +22,6 @@ import com.lms.LMSLibrarian.POJO.*;
 import com.lms.LMSLibrarian.Service.LibraryBranchService;
 
 @RestController
-
-@RequestMapping("/librarian/branches")
 public class LibraryBranchController {
 	
 	//Exceptions for Null and String 
@@ -37,8 +34,13 @@ public class LibraryBranchController {
 
 	@Autowired
 	LibraryBranchService libBranchService;
+	
+	@GetMapping(path="")
+	public HttpStatus isHealthy() {
+		return HttpStatus.OK;
+	}
 
-	@GetMapping(value="",
+	@GetMapping(value="/librarian/branches",
 				produces = {"application/xml", "application/json"})
 	public List<LibraryBranch> getAllLibraryBranch(		@RequestHeader("Accept") String accept) {
 		
@@ -46,7 +48,7 @@ public class LibraryBranchController {
 			
 	}
 
-	@PutMapping(value = "/{branchId}", 
+	@PutMapping(value = "/librarian/branches/{branchId}", 
 				produces = {"application/xml", "application/json"},
 				consumes = {"application/xml", "application/json"}
 				)
@@ -72,14 +74,14 @@ public class LibraryBranchController {
 //			return libBranchService.getBooks(branchId);
 //		}
 
-	@GetMapping(value = "/{branchId}",
+	@GetMapping(value = "/librarian/branches/{branchId}",
 			produces = {"application/xml", "application/json"})
 	public Optional<LibraryBranch> getBookById(			@PathVariable(value="branchId") Integer branchId) {
 		
 			return libBranchService.getLibraryBranchById(branchId);
 	}
 
-	@PutMapping(value = "/copies", 
+	@PutMapping(value = "/librarian/branches/copies", 
 				produces = {"application/xml", "application/json"},
 				consumes = {"application/xml", "application/json"})
 		public ResponseEntity<?> updateBookCopy( 	@RequestHeader("Accept") String accept,
