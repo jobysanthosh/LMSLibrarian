@@ -39,7 +39,7 @@ public class LibraryBranchController {
 	LibraryBranchService libBranchService;
 
 	@GetMapping(value="",
-				consumes = {"application/xml", "application/json"})
+				produces = {"application/xml", "application/json"})
 	public List<LibraryBranch> getAllLibraryBranch(		@RequestHeader("Accept") String accept) {
 		
 			return libBranchService.getAllLibraryBranch();
@@ -47,7 +47,7 @@ public class LibraryBranchController {
 	}
 
 	@PutMapping(value = "/{branchId}", 
-				consumes = {"application/xml", "application/json"})
+				produces = {"application/xml", "application/json"})
 		public ResponseEntity<?> updateLibraryBranch(	@RequestHeader("Accept") String accept,
 														@PathVariable Integer branchId,
 														@RequestBody LibraryBranch branch)  {
