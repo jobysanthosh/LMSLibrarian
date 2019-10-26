@@ -35,7 +35,7 @@ public class LibraryBranchController {
 	@Autowired
 	LibraryBranchService libBranchService;
 	
-	@GetMapping(path="")
+	@GetMapping(path="/librarian/")
 	public HttpStatus isHealthy() {
 		return HttpStatus.OK;
 	}
