@@ -47,7 +47,9 @@ public class LibraryBranchController {
 	}
 
 	@PutMapping(value = "/{branchId}", 
-				produces = {"application/xml", "application/json"})
+				produces = {"application/xml", "application/json"},
+				consumes = {"application/xml", "application/json"}
+				)
 		public ResponseEntity<?> updateLibraryBranch(	@RequestHeader("Accept") String accept,
 														@PathVariable Integer branchId,
 														@RequestBody LibraryBranch branch)  {
