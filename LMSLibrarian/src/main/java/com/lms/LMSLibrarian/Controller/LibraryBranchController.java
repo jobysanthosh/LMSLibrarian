@@ -73,13 +73,14 @@ public class LibraryBranchController {
 //		}
 
 	@GetMapping(value = "/{branchId}",
-				consumes = {"application/xml", "application/json"})
+			produces = {"application/xml", "application/json"})
 	public Optional<LibraryBranch> getBookById(			@PathVariable(value="branchId") Integer branchId) {
 		
 			return libBranchService.getLibraryBranchById(branchId);
 	}
 
 	@PutMapping(value = "/copies", 
+				produces = {"application/xml", "application/json"},
 				consumes = {"application/xml", "application/json"})
 		public ResponseEntity<?> updateBookCopy( 	@RequestHeader("Accept") String accept,
 													@RequestBody BookCopies bookCopy) {
